@@ -1,0 +1,7 @@
+{
+  "cucumberautocomplete.steps": ["src/test/steps/*.js"],
+  "cucumberautocomplete.syncfeatures": "src/test/features/*.feature",
+  "cucumberautocomplete.strictGherkinCompletion": true,
+  "editor.formatOnSave": true,
+  "prettier.requireConfig": true
+}
