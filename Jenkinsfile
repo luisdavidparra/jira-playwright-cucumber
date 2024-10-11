@@ -32,5 +32,17 @@ pipeline {
                 bat 'npm test'
             }
         }
+        stage('Publish Report') {
+            steps {
+                publishHTML(target: [
+                    reportName: 'Cucumber Test Report',
+                    reportDir: 'reports',  
+                    reportFiles: 'cucumber-report.html', 
+                    keepAll: true,
+                    alwaysLinkToLastBuild: true,
+                    allowMissing: false
+                ])
+            }
+        }
     }
 }
