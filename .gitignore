@@ -5,3 +5,8 @@ node_modules/
 /playwright/.cache/
 /reports
 cucumber-report.json
+/docs
+.env
+
+## Not being used for now
+playwright.config.js
