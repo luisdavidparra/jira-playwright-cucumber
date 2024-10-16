@@ -30,15 +30,16 @@ When('I click on Jira dashboard button', async () => {
 });
 
 Then('I verify that page shows Jira title', async () => {
-  await expect(
-    BrowserManager.page.getByTestId('atlassian-navigation--product-home--container')
-  ).toBeVisible();
+  await expect(BrowserManager.page.locator('a[href="/jira"]')).toBeVisible();
 });
 
 Then('I verify that user {string} is logged', async (user) => {
   const userName = process.env[user];
+  await BrowserManager.page.waitForSelector(
+    '[data-test-id="ak-spotlight-target-profile-spotlight"]'
+  );
   await BrowserManager.page
-    .locator('[data-testid="atlassian-navigation--secondary-actions--profile--menu-trigger"]')
+    .locator('[data-test-id="ak-spotlight-target-profile-spotlight"]')
     .click();
   await expect(
     BrowserManager.page.locator(`// a[@data-vc="link-item"] // div[text()="${userName}"]`)
