@@ -32,6 +32,11 @@ pipeline {
                 bat 'npm test'
             }
         }
+        stage('Archive Screenshots') {
+            steps {
+                archiveArtifacts artifacts: 'screenshots/*.png', allowEmptyArchive: true
+            }
+        }
         stage('Publish Report') {
             steps {
                 publishHTML(target: [
