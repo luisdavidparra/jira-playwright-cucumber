@@ -3,5 +3,6 @@
   "cucumberautocomplete.syncfeatures": "src/test/features/*.feature",
   "cucumberautocomplete.strictGherkinCompletion": true,
   "editor.formatOnSave": true,
-  "prettier.requireConfig": true
+  "prettier.requireConfig": true,
+  "javascript.suggest.autoImports": true
 }

@@ -1,12 +1,16 @@
 const { setDefaultTimeout } = require('@cucumber/cucumber');
 const { chromium, firefox } = require('@playwright/test');
-dotenv = require('dotenv').config();
+const dotenv = require('dotenv');
+dotenv.config();
 
 setDefaultTimeout(60 * 1000);
 
 class BrowserManager {
+  /** @type {import('@playwright/test').Browser} */
   static browser;
+  /** @type {import('@playwright/test').BrowserContext} */
   static context;
+  /** @type {import('@playwright/test').Page} */
   static page;
 
   static async createBrowser() {
