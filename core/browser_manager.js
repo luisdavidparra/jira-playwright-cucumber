@@ -24,6 +24,11 @@ class BrowserManager {
 
     this.context = await this.browser.newContext();
     this.page = await this.context.newPage();
+
+    const { width, height } = await this.page.evaluate(() => {
+      return { width: window.innerWidth, height: window.innerHeight };
+    });
+    await this.page.setViewportSize({ width, height });
   }
 
   static async closeBrowser() {
