@@ -42,3 +42,7 @@ Then('I verify that user {string} is logged', async (user) => {
   await Actions.click(TopBarPage.profileIconBtn);
   await expectToBeVisible(TopBarPage.profileUserNameLbl(userName));
 });
+
+Then('I verify that page shows login error', async () => {
+  await expectToBeVisible(LoginPage.loginErrorFrm);
+});

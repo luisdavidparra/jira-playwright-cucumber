@@ -11,3 +11,12 @@ Feature: authentication
     And I click on Jira dashboard button
     Then I verify that page shows Jira title
     And I verify that user "JIRA_USERNAME" is logged
+
+  @02 @ui @openBrowser @closeBrowser
+  Scenario: Verify that user receives error when login with incorrect password
+    Given I navigate to Atlassian login page
+    When I introduce the user values to login:
+      | email    | JIRA_EMAIL       |
+      | password | invalid_password |
+    And I click on submit login button
+    Then I verify that page shows login error
