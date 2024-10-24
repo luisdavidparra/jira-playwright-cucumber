@@ -13,8 +13,8 @@ async function clickByTestId(locator) {
   await BrowserManager.page.getByTestId(locator).click();
 }
 
-async function clickByRole(locator, role) {
-  await BrowserManager.page.getByRole(role, { name: locator }).click();
+async function clickByRole(text, role, exact = false) {
+  await BrowserManager.page.getByRole(role, { name: text, exact }).click();
 }
 
 async function fill(locator, value) {
@@ -26,6 +26,18 @@ async function fillByTestId(locator, value) {
   await BrowserManager.page.getByTestId(locator).fill(value);
 }
 
+async function waitForElementToHide(locator) {
+  await BrowserManager.page.waitForSelector(locator, { state: 'hidden' });
+}
+
+async function reloadPage() {
+  await BrowserManager.page.reload();
+}
+
+async function mouseHover(locator) {
+  await BrowserManager.page.hover(locator);
+}
+
 module.exports = {
   goto,
   click,
@@ -33,4 +45,7 @@ module.exports = {
   clickByRole,
   fill,
   fillByTestId,
+  waitForElementToHide,
+  reloadPage,
+  mouseHover,
 };

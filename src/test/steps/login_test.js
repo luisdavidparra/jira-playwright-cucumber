@@ -46,3 +46,13 @@ Then('I verify that user {string} is logged', async (user) => {
 Then('I verify that page shows login error', async () => {
   await expectToBeVisible(LoginPage.loginErrorFrm);
 });
+
+Given('I login in Atlassian and go to Jira dashboard', async () => {
+  await Actions.goto('https://id.atlassian.com/login');
+  await Actions.fillByTestId(LoginPage.usernameTxt, process.env.JIRA_EMAIL);
+  await Actions.click(LoginPage.loginSubmitBtn);
+  await Actions.fillByTestId(LoginPage.passwordTxt, process.env.JIRA_PASSWORD);
+  await Actions.click(LoginPage.loginSubmitBtn);
+  const email = process.env.JIRA_EMAIL;
+  await Actions.clickByRole(jiraDashboardBtn(email), 'link');
+});
