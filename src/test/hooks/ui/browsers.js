@@ -1,5 +1,5 @@
 const { Before, After, Status } = require('@cucumber/cucumber');
-const BrowserManager = require('../../../core/browser_manager');
+const BrowserManager = require('../../../../core/ui/browser_manager');
 
 Before({ tags: '@openBrowser' }, async function () {
   await BrowserManager.createBrowser();

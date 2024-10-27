@@ -1,7 +1,7 @@
 const { When, Then } = require('@cucumber/cucumber');
 const ProjectPage = require('../../../jira/page_object/project_page');
-const Actions = require('../../../core/actions');
-const { expectToHaveAttribute, expectToContainText } = require('../../../core/assertions');
+const Actions = require('../../../core/ui/actions');
+const { expectToHaveAttribute, expectToContainText } = require('../../../core/ui/assertions');
 const dotenv = require('dotenv');
 dotenv.config();
 

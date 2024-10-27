@@ -2,13 +2,13 @@ const { Given, When, Then } = require('@cucumber/cucumber');
 const LoginPage = require('../../../jira/page_object/login_page');
 const { jiraDashboardBtn } = require('../../../jira/page_object/atlassian_home_page');
 const TopBarPage = require('../../../jira/page_object/top_bar_page');
-const Actions = require('../../../core/actions');
-const { expectToBeVisible } = require('../../../core/assertions');
+const Actions = require('../../../core/ui/actions');
+const { expectToBeVisible } = require('../../../core/ui/assertions');
 const dotenv = require('dotenv');
 dotenv.config();
 
 Given('I navigate to Atlassian login page', async () => {
-  await Actions.goto('https://id.atlassian.com/login');
+  await Actions.goto(process.env.UI_BASE_URL);
 });
 
 When('I introduce the user values to login:', async (userValues) => {
@@ -48,7 +48,7 @@ Then('I verify that page shows login error', async () => {
 });
 
 Given('I login in Atlassian and go to Jira dashboard', async () => {
-  await Actions.goto('https://id.atlassian.com/login');
+  await Actions.goto(process.env.UI_BASE_URL);
   await Actions.fillByTestId(LoginPage.usernameTxt, process.env.JIRA_EMAIL);
   await Actions.click(LoginPage.loginSubmitBtn);
   await Actions.fillByTestId(LoginPage.passwordTxt, process.env.JIRA_PASSWORD);

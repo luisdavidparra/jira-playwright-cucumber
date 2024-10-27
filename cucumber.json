@@ -1,7 +1,7 @@
 {
   "default": {
     "paths": ["src/test/features/"],
-    "require": ["src/test/steps/*.js", "src/test/hooks/*.js"],
+    "require": ["src/test/steps/*.js", "src/test/hooks/**/*.js"],
     "formatOptions": {
       "snippetInterface": "async-await"
     },

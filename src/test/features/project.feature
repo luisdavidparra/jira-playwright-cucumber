@@ -4,7 +4,7 @@ Feature: project
   Background:
     Given I login in Atlassian and go to Jira dashboard
 
-  @03 @ui @openBrowser @closeBrowser
+  @03 @ui @openBrowser @closeBrowser @deleteProject
   Scenario: Verify that user can create a project from the IT Service template
     When I click on create project button
     And I create a project with the following values:
