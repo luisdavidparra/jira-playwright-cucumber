@@ -15,11 +15,12 @@ class BrowserManager {
 
   static async createBrowser() {
     const browserType = process.env.BROWSER;
+    const isHeadless = process.env.HEADLESS === 'true';
 
     if (browserType === 'chromium') {
-      this.browser = await chromium.launch({ headless: false });
+      this.browser = await chromium.launch({ headless: isHeadless });
     } else if (browserType === 'firefox') {
-      this.browser = await firefox.launch({ headless: false });
+      this.browser = await firefox.launch({ headless: isHeadless });
     }
 
     this.context = await this.browser.newContext();
