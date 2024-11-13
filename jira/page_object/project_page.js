@@ -12,6 +12,7 @@ class ProjectPage {
   projectSettingsKeyTxt = 'input[id^="projectKey-uid"]';
   projectSettingsTypeLbl =
     '[class*="project-create.create-form.department-type-select__single-value"]';
+  projectCreationErrorDescriptionLbl = '[id="project-create.create-form.name-field.error"]';
 }
 
 module.exports = new ProjectPage();
