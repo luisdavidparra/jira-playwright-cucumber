@@ -1,11 +1,7 @@
 const { When, Then } = require('@cucumber/cucumber');
 const ProjectPage = require('../../../jira/page_object/project_page');
 const Actions = require('../../../core/ui/actions');
-const {
-  expectToHaveAttribute,
-  expectToContainText,
-  expectToBeVisible,
-} = require('../../../core/ui/assertions');
+const Assertions = require('../../../core/ui/assertions');
 const dotenv = require('dotenv');
 const logger = require('../../../core/utils/logger');
 
@@ -65,12 +61,34 @@ Then('I verify that project was created with the values:', async (expectedValues
   });
 
   await Actions.click(ProjectPage.projectSettingsDetailsBtn, 'project settings details');
-  await expectToHaveAttribute(ProjectPage.projectSettingsNameTxt, 'value', values.name);
-  await expectToHaveAttribute(ProjectPage.projectSettingsKeyTxt, 'value', values.key);
-  await expectToContainText(ProjectPage.projectSettingsTypeLbl, values.teamType);
+  await Assertions.expectToHaveAttribute(ProjectPage.projectSettingsNameTxt, 'value', values.name);
+  await Assertions.expectToHaveAttribute(ProjectPage.projectSettingsKeyTxt, 'value', values.key);
+  await Assertions.expectToContainText(ProjectPage.projectSettingsTypeLbl, values.teamType);
 });
 
 Then('I verify that page displays error message', async () => {
   logger.step('Verifying page displays error message');
-  await expectToBeVisible(ProjectPage.projectCreationErrorDescriptionLbl);
+  await Assertions.expectToBeVisible(ProjectPage.projectCreationErrorDescriptionLbl);
+});
+
+When('I clean the filter by product field', async () => {
+  await Actions.clickByLabel('clear', 'Filter by product field', true);
+});
+
+When('I search by name the project created by API', async () => {
+  await Actions.fillByTestId(
+    ProjectPage.searchFiledTxt,
+    'default-project-automation-test',
+    'Search Field'
+  );
+});
+
+Then('I verify that the project created by API is on the list', async () => {
+  await Assertions.expectToBeVisibleByRole('default-project-automation-test', 'link');
+  await Assertions.expectNestedLocatorToContainText(
+    ProjectPage.projectsListContainer,
+    'role=link',
+    'default-project-automation-test'
+  );
+  await Assertions.expectToContainText('tbody', 'DPR');
 });

@@ -13,6 +13,9 @@ class ProjectPage {
   projectSettingsTypeLbl =
     '[class*="project-create.create-form.department-type-select__single-value"]';
   projectCreationErrorDescriptionLbl = '[id="project-create.create-form.name-field.error"]';
+  searchFiledTxt = 'searchfield';
+  projectsListContainer =
+    '[data-testid="global-pages.directories.projects-directory-v3.ui.page-layout.projects-list.container"]';
 }
 
 module.exports = new ProjectPage();

@@ -22,6 +22,11 @@ async function clickByRole(text, role, elementName, exact = false) {
   await BrowserManager.page.getByRole(role, { name: text, exact }).click();
 }
 
+async function clickByLabel(label, elementName, exact = false) {
+  logger.info(`Clicking on ${elementName}`);
+  await BrowserManager.page.getByLabel(label, { exact }).click();
+}
+
 async function fill(locator, value, elementName) {
   logger.info(`Filling ${elementName} element with ${value}`);
   await BrowserManager.page.waitForSelector(locator);
@@ -48,14 +53,21 @@ async function mouseHover(locator, elementName) {
   await BrowserManager.page.hover(locator);
 }
 
+async function pausePage() {
+  logger.info('Stopping execution');
+  await BrowserManager.page.pause();
+}
+
 module.exports = {
   goto,
   click,
   clickByTestId,
   clickByRole,
+  clickByLabel,
   fill,
   fillByTestId,
   waitForElementToHide,
   reloadPage,
   mouseHover,
+  pausePage,
 };

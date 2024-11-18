@@ -13,4 +13,20 @@ async function expectToContainText(locator, expectedValue) {
   await expect(BrowserManager.page.locator(locator)).toContainText(expectedValue);
 }
 
-module.exports = { expectToBeVisible, expectToHaveAttribute, expectToContainText };
+async function expectToBeVisibleByRole(text, role, exact = false) {
+  await expect(BrowserManager.page.getByRole(role, { name: text, exact })).toBeVisible();
+}
+
+async function expectNestedLocatorToContainText(baseLocator, nestedLocator, expectedValue) {
+  const baseElement = BrowserManager.page.locator(baseLocator);
+  const nestedElement = baseElement.locator(nestedLocator);
+  await expect(nestedElement).toContainText(expectedValue);
+}
+
+module.exports = {
+  expectToBeVisible,
+  expectToHaveAttribute,
+  expectToContainText,
+  expectToBeVisibleByRole,
+  expectNestedLocatorToContainText,
+};
