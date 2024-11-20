@@ -16,6 +16,7 @@ class ProjectPage {
   searchFiledTxt = 'searchfield';
   projectsListContainer =
     '[data-testid="global-pages.directories.projects-directory-v3.ui.page-layout.projects-list.container"]';
+  filterByProductBtn = '[aria-label="open"]';
 }
 
 module.exports = new ProjectPage();

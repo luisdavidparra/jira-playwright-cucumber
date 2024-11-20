@@ -35,3 +35,9 @@ Feature: project
     When I clean the filter by product field
     And I search by name the project created by API
     Then I verify that the project created by API is on the list
+
+  @06 @ui @createProject @deleteProject
+  Scenario: Verify that user can filter a project by type
+    When I clean the filter by product field
+    And I filter by type the project created by API
+    Then I verify that the project created by API is on the list

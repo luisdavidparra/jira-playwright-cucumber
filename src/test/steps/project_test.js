@@ -92,3 +92,8 @@ Then('I verify that the project created by API is on the list', async () => {
   );
   await Assertions.expectToContainText('tbody', 'DPR');
 });
+
+When('I filter by type the project created by API', async () => {
+  await Actions.click(ProjectPage.filterByProductBtn, 'Filter by product field');
+  await Actions.clickByRole('Jira Service Management', 'option', 'Jira Service Managment option');
+});
