@@ -4,6 +4,8 @@ const Actions = require('../../../core/ui/actions');
 const Assertions = require('../../../core/ui/assertions');
 const dotenv = require('dotenv');
 const logger = require('../../../core/utils/logger');
+const TopBarPage = require('../../../jira/page_object/top_bar_page');
+const CreateIssueModalPage = require('../../../jira/page_object/create_issue_modal_page');
 
 dotenv.config();
 
@@ -96,4 +98,18 @@ Then('I verify that the project created by API is on the list', async () => {
 When('I filter by type the project created by API', async () => {
   await Actions.click(ProjectPage.filterByProductBtn, 'Filter by product field');
   await Actions.clickByRole('Jira Service Management', 'option', 'Jira Service Managment option');
+});
+
+When('I create a new issue with the name {string}', async (issueName) => {
+  await Actions.clickByTestId(TopBarPage.createBtn, 'create button');
+  await Actions.fillByTestId(CreateIssueModalPage.issueSummaryTxt, issueName, 'issue name input');
+  await Actions.clickByTestId(CreateIssueModalPage.createIssueBtn, 'submit create issue');
+});
+
+When('I open the board of the project', async () => {
+  await Actions.clickByRole('Board', 'link', 'project board');
+});
+
+Then('I verify that {string} issue is in TO DO section', async (issueName) => {
+  await Assertions.expectToBeVisibleHasText(ProjectPage.todoBoardSectionTbl, issueName);
 });

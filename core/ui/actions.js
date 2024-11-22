@@ -27,6 +27,16 @@ async function clickByLabel(label, elementName, exact = false) {
   await BrowserManager.page.getByLabel(label, { exact }).click();
 }
 
+async function clickByTestIdWithLabel(locator, label, elementName) {
+  logger.info(`Clicking on ${elementName}`);
+  await BrowserManager.page.getByTestId(locator).getByLabel(label).click();
+}
+
+async function clickByText(text, elementName, exact = false) {
+  logger.info(`Clicking on ${elementName}`);
+  await BrowserManager.page.getByText(text, { exact }).click();
+}
+
 async function fill(locator, value, elementName) {
   logger.info(`Filling ${elementName} element with ${value}`);
   await BrowserManager.page.waitForSelector(locator);
@@ -64,6 +74,8 @@ module.exports = {
   clickByTestId,
   clickByRole,
   clickByLabel,
+  clickByTestIdWithLabel,
+  clickByText,
   fill,
   fillByTestId,
   waitForElementToHide,

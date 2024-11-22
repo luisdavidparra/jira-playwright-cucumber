@@ -17,6 +17,8 @@ class ProjectPage {
   projectsListContainer =
     '[data-testid="global-pages.directories.projects-directory-v3.ui.page-layout.projects-list.container"]';
   filterByProductBtn = '[aria-label="open"]';
+  todoBoardSectionTbl =
+    '[data-testid="platform-board-kit.ui.column.draggable-column.styled-wrapper"]';
 }
 
 module.exports = new ProjectPage();

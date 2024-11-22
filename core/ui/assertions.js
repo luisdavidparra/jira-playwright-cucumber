@@ -5,6 +5,10 @@ async function expectToBeVisible(locator) {
   await expect(BrowserManager.page.locator(locator)).toBeVisible();
 }
 
+async function expectToBeVisibleHasText(locator, text) {
+  await expect(BrowserManager.page.locator(locator).filter({ hasText: text })).toBeVisible();
+}
+
 async function expectToHaveAttribute(locator, attribute, expectedValue) {
   await expect(BrowserManager.page.locator(locator)).toHaveAttribute(attribute, expectedValue);
 }
@@ -25,6 +29,7 @@ async function expectNestedLocatorToContainText(baseLocator, nestedLocator, expe
 
 module.exports = {
   expectToBeVisible,
+  expectToBeVisibleHasText,
   expectToHaveAttribute,
   expectToContainText,
   expectToBeVisibleByRole,

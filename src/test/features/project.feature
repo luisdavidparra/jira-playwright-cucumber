@@ -41,3 +41,16 @@ Feature: project
     When I clean the filter by product field
     And I filter by type the project created by API
     Then I verify that the project created by API is on the list
+
+  @07 @ui @deleteProject
+  Scenario: Verify that when user creates an issue, it is added to TO DO section in boards
+    And I click on create project button
+    And I create a project with the following values:
+      | templateType | IT                                 |
+      | template     | IT service management              |
+      | name         | default-project-automation-test-07 |
+      | key          | PAT03                              |
+      | teamType     | Information technology (IT)        |
+    When I create a new issue with the name "default-issue-automation-test-07"
+    And I open the board of the project
+    Then I verify that "default-issue-automation-test-07" issue is in TO DO section
