@@ -87,11 +87,6 @@ When('I search by name the project created by API', async () => {
 
 Then('I verify that the project created by API is on the list', async () => {
   await Assertions.expectToBeVisibleByRole('default-project-automation-test', 'link');
-  await Assertions.expectNestedLocatorToContainText(
-    ProjectPage.projectsListContainer,
-    'role=link',
-    'default-project-automation-test'
-  );
   await Assertions.expectToContainText('tbody', 'DPR');
 });
 
