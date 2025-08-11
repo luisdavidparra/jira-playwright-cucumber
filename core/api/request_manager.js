@@ -20,12 +20,17 @@ class RequestManager {
 
   async sendRequest(verb, endpoint, body = null, headers = {}) {
     try {
-      const response = await this.axios.request({
+      const config = {
         method: verb,
         url: endpoint,
-        data: body,
-        headers: headers,
-      });
+        headers,
+      };
+
+      if (verb.toLowerCase() !== 'get' && body !== null) {
+        config.data = body;
+      }
+
+      const response = await this.axios.request(config);
 
       if (response.status >= 400) {
         console.error(`Request failed with status ${response.status}: ${response.statusText}`);

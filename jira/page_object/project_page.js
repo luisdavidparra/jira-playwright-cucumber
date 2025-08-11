@@ -1,5 +1,6 @@
 class ProjectPage {
-  createProjectsBtn = 'global-pages.directories.projects-directory-v3.create-projects-button';
+  createProjectsBtn = '[data-testid*="projects-container"] [role="presentation"] span svg';
+  templateOptionBtn = (templateName) => `li [aria-label="${templateName}"]`;
   useTemplateBtn =
     'project-template-select-v2.ui.layout.screens.template-overview.template-overview-card.use-template-button.button';
   projectFormNameTxt = 'project-create.create-form.name-field.input';
@@ -19,6 +20,8 @@ class ProjectPage {
   filterByProductBtn = '[aria-label="open"]';
   todoBoardSectionTbl =
     '[data-testid="platform-board-kit.ui.column.draggable-column.styled-wrapper"]';
+  projectViewsBtn = (projectKey) =>
+    `[data-testid*="container"] [href*="/jira/servicedesk/projects/${projectKey}/boards"]`;
 }
 
 module.exports = new ProjectPage();

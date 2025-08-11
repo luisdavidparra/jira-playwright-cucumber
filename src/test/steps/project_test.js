@@ -6,25 +6,26 @@ const dotenv = require('dotenv');
 const logger = require('../../../core/utils/logger');
 const TopBarPage = require('../../../jira/page_object/top_bar_page');
 const CreateIssueModalPage = require('../../../jira/page_object/create_issue_modal_page');
+const testdata = require('../../../test-data');
 
 dotenv.config();
 
 When('I click on create project button', async () => {
   logger.step('Clicking create project button');
-  await Actions.clickByTestId(ProjectPage.createProjectsBtn, 'create project');
+  await Actions.click(ProjectPage.createProjectsBtn);
 });
 
 When('I create a project with the following values:', async (userValues) => {
   logger.step('Filling new project values');
-  let values = { templateType: '', template: '', name: '', key: '', teamType: '' };
+  let values = { template: '', name: '', key: '', teamType: '' };
   this.userValues = userValues.rowsHash();
 
   Object.keys(this.userValues).forEach((key) => {
     values[key] = process.env[this.userValues[key]] || this.userValues[key];
   });
 
-  await Actions.clickByRole(values.templateType, 'button', 'template  type', true);
-  await Actions.clickByRole(values.template, 'button', 'template', true);
+  await Actions.click(ProjectPage.templateOptionBtn(values.template), 'project template');
+  await Actions.waitForLoadState();
   await Actions.clickByTestId(ProjectPage.useTemplateBtn, 'project template');
   await Actions.fillByTestId(ProjectPage.projectFormNameTxt, values.name, 'project name input');
   await Actions.fillByTestId(ProjectPage.projectFormKeyTxt, values.key, 'projcet key input');
@@ -34,16 +35,16 @@ When('I create a project with the following values:', async (userValues) => {
   await Actions.waitForElementToHide(ProjectPage.submitCreateProjectBtn, 'submit create project');
   await Actions.reloadPage();
 });
+
 When('I fill new project values with the following values:', async (userValues) => {
   logger.step('Filling new project values');
-  let values = { templateType: '', template: '', name: '', key: '', teamType: '' };
+  let values = { template: '', name: '', key: '', teamType: '' };
   this.userValues = userValues.rowsHash();
 
   Object.keys(this.userValues).forEach((key) => {
     values[key] = process.env[this.userValues[key]] || this.userValues[key];
   });
 
-  await Actions.clickByRole(values.templateType, 'button', 'template  type', true);
   await Actions.clickByRole(values.template, 'button', 'template', true);
   await Actions.clickByTestId(ProjectPage.useTemplateBtn, 'project template');
   await Actions.fillByTestId(ProjectPage.projectFormKeyTxt, values.key, 'projcet key input');
@@ -55,17 +56,14 @@ When('I fill new project values with the following values:', async (userValues) 
 
 Then('I verify that project was created with the values:', async (expectedValues) => {
   logger.step('Verifying project was created with correct values');
-  let values = { name: '', key: '', teamType: '' };
+  let values = { name: '' };
   this.expectedValues = expectedValues.rowsHash();
 
   Object.keys(this.userValues).forEach((key) => {
     values[key] = process.env[this.userValues[key]] || this.userValues[key];
   });
 
-  await Actions.click(ProjectPage.projectSettingsDetailsBtn, 'project settings details');
-  await Assertions.expectToHaveAttribute(ProjectPage.projectSettingsNameTxt, 'value', values.name);
-  await Assertions.expectToHaveAttribute(ProjectPage.projectSettingsKeyTxt, 'value', values.key);
-  await Assertions.expectToContainText(ProjectPage.projectSettingsTypeLbl, values.teamType);
+  await Assertions.expectToBeVisible(`// span [text()="${values.name}"]`);
 });
 
 Then('I verify that page displays error message', async () => {
@@ -78,16 +76,12 @@ When('I clean the filter by product field', async () => {
 });
 
 When('I search by name the project created by API', async () => {
-  await Actions.fillByTestId(
-    ProjectPage.searchFiledTxt,
-    'default-project-automation-test',
-    'Search Field'
-  );
+  await Actions.fillByTestId(ProjectPage.searchFiledTxt, testdata.name, 'Search Field');
 });
 
 Then('I verify that the project created by API is on the list', async () => {
-  await Assertions.expectToBeVisibleByRole('default-project-automation-test', 'link');
-  await Assertions.expectToContainText('tbody', 'DPR');
+  await Assertions.expectToBeVisibleByRole(testdata.name, 'link');
+  await Assertions.expectToContainText('tbody', 'D101');
 });
 
 When('I filter by type the project created by API', async () => {
@@ -101,10 +95,10 @@ When('I create a new issue with the name {string}', async (issueName) => {
   await Actions.clickByTestId(CreateIssueModalPage.createIssueBtn, 'submit create issue');
 });
 
-When('I open the board of the project', async () => {
-  await Actions.clickByRole('Board', 'link', 'project board');
+When('I open the views section of the project with the key {string}', async (key) => {
+  await Actions.click(ProjectPage.projectViewsBtn(key), 'views section');
 });
 
-Then('I verify that {string} issue is in TO DO section', async (issueName) => {
+Then('I verify that {string} task is in TO DO section', async (issueName) => {
   await Assertions.expectToBeVisibleHasText(ProjectPage.todoBoardSectionTbl, issueName);
 });

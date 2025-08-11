@@ -30,17 +30,19 @@ When('I introduce the user values to login:', async (userValues) => {
 When('I click on submit login button', async () => {
   logger.step('Clicking submit login');
   await Actions.click(LoginPage.loginSubmitBtn, 'submit login');
+  await Actions.waitForLoadState();
+  await Actions.tryClick2FASkipButton(LoginPage.skip2FAPromoBtn);
 });
 
 When('I click on Jira dashboard button', async () => {
   logger.step('Clicking Jira dashboard');
   const email = process.env.JIRA_EMAIL;
-  await Actions.clickByRole(jiraDashboardBtn(email), 'link', 'Jira dashboard');
+  await Actions.clickByRoleAndHandleNewTab(jiraDashboardBtn(email), 'link', 'Jira dashboard');
 });
 
 Then('I verify that page shows Jira title', async () => {
   logger.step('Verifying that page shows Jira title');
-  await expectToBeVisible(TopBarPage.jiraLogoLnk);
+  await expectToBeVisible(TopBarPage.jiraLogo);
 });
 
 Then('I verify that user {string} is logged', async (user) => {
@@ -63,5 +65,5 @@ Given('I loggin in Atlassian and go to Jira dashboard', async () => {
   await Actions.fillByTestId(LoginPage.passwordTxt, process.env.JIRA_PASSWORD, 'password input');
   await Actions.click(LoginPage.loginSubmitBtn, 'submit login');
   const email = process.env.JIRA_EMAIL;
-  await Actions.clickByRole(jiraDashboardBtn(email), 'link', 'Jira dashboard');
+  await Actions.clickByRoleAndHandleNewTab(jiraDashboardBtn(email), 'link', 'Jira dashboard');
 });

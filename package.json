@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "cucumber-js test --retry 2"
+    "test": "cucumber-js test --retry 2",
+    "record": "npx playwright codegen"
   },
   "keywords": [],
   "author": "",

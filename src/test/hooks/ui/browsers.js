@@ -12,6 +12,6 @@ After({ tags: '@closeBrowser' }, async function (scenario) {
     logger.error(`${scenario.pickle.name} is failing`);
     await BrowserManager.page.screenshot({ path: `screenshots/${scenario.pickle.name}.png` });
   }
-  logger.step(`Clogin browser scenario: ${scenario.pickle.name}`);
+  logger.step(`Closing browser scenario: ${scenario.pickle.name}`);
   await BrowserManager.closeBrowser();
 });
