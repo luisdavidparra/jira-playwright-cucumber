@@ -1,12 +1,11 @@
+# ⚠️ Important:
+# This pipeline has been disabled because the tests require authentication with Atlassian,
+# and MFA prevents stable execution in GitHub Actions.
+# Tests must be run locally.
+
 name: Run Tests and Save Report
 
-on:
-  push:
-    branches:
-      - develop
-  pull_request:
-    branches:
-      - develop
+on: workflow_dispatch
 
 jobs:
   test:
