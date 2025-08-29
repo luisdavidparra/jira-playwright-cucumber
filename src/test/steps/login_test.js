@@ -1,13 +1,20 @@
 const { Given, When, Then } = require('@cucumber/cucumber');
-const BrowserManager = require('../../../core/browser_manager');
-const { expect } = require('@playwright/test');
-dotenv = require('dotenv').config();
+const LoginPage = require('../../../jira/page_object/login_page');
+const { jiraDashboardBtn } = require('../../../jira/page_object/atlassian_home_page');
+const TopBarPage = require('../../../jira/page_object/top_bar_page');
+const Actions = require('../../../core/ui/actions');
+const { expectToBeVisible } = require('../../../core/ui/assertions');
+const dotenv = require('dotenv');
+const logger = require('../../../core/utils/logger');
+dotenv.config();
 
 Given('I navigate to Atlassian login page', async () => {
-  await BrowserManager.page.goto('https://id.atlassian.com/login');
+  logger.step('Navigating to Atlassian login page');
+  await Actions.goto(process.env.UI_BASE_URL);
 });
 
 When('I introduce the user values to login:', async (userValues) => {
+  logger.step('Introducing user login values');
   let values = { email: '', password: '' };
   this.userValues = userValues.rowsHash();
 
@@ -15,32 +22,48 @@ When('I introduce the user values to login:', async (userValues) => {
     values[key] = process.env[this.userValues[key]] || this.userValues[key];
   });
 
-  await BrowserManager.page.getByTestId('username').fill(values.email);
-  await BrowserManager.page.locator('#login-submit').click();
-  await BrowserManager.page.getByTestId('password').fill(values.password);
+  await Actions.fillByTestId(LoginPage.usernameTxt, values.email, 'username input');
+  await Actions.click(LoginPage.loginSubmitBtn, 'submit login');
+  await Actions.fillByTestId(LoginPage.passwordTxt, values.password, 'password input');
 });
 
 When('I click on submit login button', async () => {
-  await BrowserManager.page.locator('#login-submit').click();
+  logger.step('Clicking submit login');
+  await Actions.click(LoginPage.loginSubmitBtn, 'submit login');
+  await Actions.waitForLoadState();
+  await Actions.tryClick2FASkipButton(LoginPage.skip2FAPromoBtn);
 });
 
 When('I click on Jira dashboard button', async () => {
+  logger.step('Clicking Jira dashboard');
   const email = process.env.JIRA_EMAIL;
-  await BrowserManager.page.getByRole('link', { name: `Jira ${email.split('@')[0]}` }).click();
+  await Actions.clickByRoleAndHandleNewTab(jiraDashboardBtn(email), 'link', 'Jira dashboard');
 });
 
 Then('I verify that page shows Jira title', async () => {
-  await expect(
-    BrowserManager.page.getByTestId('atlassian-navigation--product-home--container')
-  ).toBeVisible();
+  logger.step('Verifying that page shows Jira title');
+  await expectToBeVisible(TopBarPage.jiraLogo);
 });
 
 Then('I verify that user {string} is logged', async (user) => {
+  logger.step('Verifying that user is logged');
   const userName = process.env[user];
-  await BrowserManager.page
-    .locator('[data-testid="atlassian-navigation--secondary-actions--profile--menu-trigger"]')
-    .click();
-  await expect(
-    BrowserManager.page.locator(`// a[@data-vc="link-item"] // div[text()="${userName}"]`)
-  ).toBeVisible();
+  await Actions.click(TopBarPage.profileIconBtn, 'profile icon ');
+  await expectToBeVisible(TopBarPage.profileUserNameLbl(userName));
+});
+
+Then('I verify that page shows login error', async () => {
+  logger.step('Verifying that page shows login error');
+  await expectToBeVisible(LoginPage.loginErrorFrm);
+});
+
+Given('I loggin in Atlassian and go to Jira dashboard', async () => {
+  logger.step('Logging in Atlassian and go to Jira dashboard');
+  await Actions.goto(process.env.UI_BASE_URL);
+  await Actions.fillByTestId(LoginPage.usernameTxt, process.env.JIRA_EMAIL, 'username input');
+  await Actions.click(LoginPage.loginSubmitBtn, 'submit login');
+  await Actions.fillByTestId(LoginPage.passwordTxt, process.env.JIRA_PASSWORD, 'password input');
+  await Actions.click(LoginPage.loginSubmitBtn, 'submit login');
+  const email = process.env.JIRA_EMAIL;
+  await Actions.clickByRoleAndHandleNewTab(jiraDashboardBtn(email), 'link', 'Jira dashboard');
 });

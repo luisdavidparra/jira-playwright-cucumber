@@ -7,6 +7,7 @@ node_modules/
 cucumber-report.json
 /docs
 .env
+/screenshots
 
 ## Not being used for now
 playwright.config.js

@@ -18,7 +18,7 @@
 ## UI Scenarios
 
 - Verify that user can successfully login to Atlassian and access Jira Dashboard.
-- Verify that user receives error when logging in with incorrect password.
+- Verify that user receives error when login with incorrect password.
 - Verify that user can create a project from the IT Service template.
 - Verify that user can't create a project with a name exceeding the character limit.
 - Verify that user can search a project by name.

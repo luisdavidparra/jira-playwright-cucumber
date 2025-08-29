@@ -1,0 +1,40 @@
+const { setDefaultTimeout } = require('@cucumber/cucumber');
+const { chromium, firefox } = require('@playwright/test');
+const dotenv = require('dotenv');
+dotenv.config();
+
+setDefaultTimeout(60 * 1000);
+
+class BrowserManager {
+  /** @type {import('@playwright/test').Browser} */
+  static browser;
+  /** @type {import('@playwright/test').BrowserContext} */
+  static context;
+  /** @type {import('@playwright/test').Page} */
+  static page;
+
+  static async createBrowser() {
+    const browserType = process.env.BROWSER;
+    const isHeadless = process.env.HEADLESS === 'true';
+
+    if (browserType === 'chromium') {
+      this.browser = await chromium.launch({ headless: isHeadless });
+    } else if (browserType === 'firefox') {
+      this.browser = await firefox.launch({ headless: isHeadless });
+    }
+
+    this.context = await this.browser.newContext();
+    this.page = await this.context.newPage();
+
+    const { width, height } = await this.page.evaluate(() => {
+      return { width: window.innerWidth, height: window.innerHeight };
+    });
+    await this.page.setViewportSize({ width, height });
+  }
+
+  static async closeBrowser() {
+    await this.browser.close();
+  }
+}
+
+module.exports = BrowserManager;

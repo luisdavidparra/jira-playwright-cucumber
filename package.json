@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "cucumber-js test"
+    "test": "cucumber-js test --retry 2",
+    "record": "npx playwright codegen"
   },
   "keywords": [],
   "author": "",
@@ -11,15 +12,17 @@
   "description": "",
   "devDependencies": {
     "@cucumber/cucumber": "^11.0.1",
-    "@playwright/test": "^1.48.0",
+    "@playwright/test": "^1.48.2",
     "@types/node": "^22.7.5"
   },
   "dependencies": {
     "@eslint/js": "^9.12.0",
+    "axios": "^1.7.7",
     "dotenv": "^16.4.5",
     "eslint": "^9.12.0",
     "fs": "^0.0.1-security",
     "globals": "^15.11.0",
-    "prettier": "^3.3.3"
+    "prettier": "^3.3.3",
+    "winston": "^3.16.0"
   }
 }
